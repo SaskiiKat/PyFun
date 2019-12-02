@@ -1,30 +1,39 @@
-#accept name and surname here
-name = input("Enter name: ")
-surname = input("Enter surname: ")
+#loop twice
+count = 0
+while (count < 2):
 
-#accept marks here
-maths = int(input("Enter maths mark: "))
-science = int(input("Enter science mark: "))
-art = int(input("Enter art mark: "))
-english = int(input("Enter english mark: "))
-ict = int(input("Enter ict mark: "))
+    #accept name and surname here
+    name = input("Enter name: ")
+    surname = input("Enter surname: ")
 
-#find the average and total
+    #accept marks here
+    maths = int(input("Enter maths mark: "))
+    science = int(input("Enter science mark: "))
+    art = int(input("Enter art mark: "))
+    english = int(input("Enter english mark: "))
+    ict = int(input("Enter ict mark: "))
 
-total_marks = maths + science + art + english + ict
-average = total_marks/5
+    #find the average and total
 
-#pass or fail?
+    total_marks = maths + science + art + english + ict
+    average = total_marks/5
 
-if average < 50:
-    grade = "F"
-else:
-    grade = "P"
+    #pass or fail?
 
-#Output section
-print("name: ", name)
-print("surname: ", surname)
-print("total marks: ", total_marks)
-print("average: ", average)
-print("grade: ", grade)
+    if average < 50:
+        grade = "F"
+    else:
+        grade = "P"
+
+    #Output section
+    print("name: ", name)
+    print("surname: ", surname)
+    print("total marks: ", total_marks)
+    print("average: ", average)
+    print("grade: ", grade)
+
+    #increment loop count
+    count = count + 1
+
+print("Goodbye")
 
