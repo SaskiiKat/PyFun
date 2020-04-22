@@ -32,8 +32,6 @@ class Product:
 
     # e. calculate the payment due (total - discount + VAT)
     def calcPaymentDue(self, qty):
-        if qty < 0:
-            return 0
         discounted = self.getDiscountedTotal(qty)
         vat = self.calcVAT(qty)
         paymentDue = discounted + vat
