@@ -1,5 +1,4 @@
-# HardwareShop.py
-# Saskia Savage 20/04/2020
+#Saskia Savage 20/04/2020 HardwareShop.py
 
 VAT_RATE = 0.15
 
@@ -12,35 +11,35 @@ class Product:
         self.description = description
         self.cost = cost
 
-    # b. Calculate Total (cost by quantity)
-    def calcTotal(self, quantity):
-        return self.cost * quantity
+    # b. Calculate total (cost by qty)
+    def calcTotal(self, qty):
+        return self.cost * qty
 
-    # c. Calculate discount (per product type)
-    def calcDiscount(self, quantity):
-        total = self.calcTotal(quantity)
+    # c. Calculate discount (different for each product type)
+    def calcDiscount(self, qty):
+        total = self.calcTotal(qty)
         return self.discount * total
 
-    def calcDiscountedTotal(self, quantity):
-        total = self.calcTotal(quantity)
-        discountValue = self.calcDiscount(quantity)
+    def getDiscountedTotal(self, qty):
+        total = self.calcTotal(qty)
+        discountValue = self.calcDiscount(qty)
         return total - discountValue
 
     # d. Calculate VAT (15% (total - discount))
-    def calcVAT(self, quantity):
-        discounted = self.calcDiscountedTotal(quantity)
+    def calcVAT(self, qty):
+        discounted = self.getDiscountedTotal(qty)
         return discounted * VAT_RATE
 
-    # e. Calculate payment due (total - discount + VAT)
-    def calcPaymentDue(self, quantity):
-        if quantity < 1:
+    # e. calculate the payment due (total - discount + VAT)
+    def calcPaymentDue(self, qty):
+        if qty < 0:
             return 0
-        discounted = self.calcDiscountedTotal(quantity)
-        vat = self.calcVAT(quantity)
+        discounted = self.getDiscountedTotal(qty)
+        vat = self.calcVAT(qty)
         paymentDue = discounted + vat
         return round(paymentDue, 2)
 
-
+    
 class Gardening(Product):
 
     discount = 0.05
@@ -56,32 +55,96 @@ class Building(Product):
     discount = 0.09
 
 
-def outputProductPaymentDue(product, quantity):
-    print(str(quantity) +
-          " x " + product.description +
-          " cost: " +
-          str(product.calcPaymentDue(quantity)))
+def outputProductPaymentDue(product, qty):
+    print(str(qty) + 
+        " x " + 
+        product.description + 
+        " cost= " + 
+        str(product.calcPaymentDue(qty)))
+
+
+def getProductFromTypeSelection():
+    while True:
+        print("Select product type number from the options below: ")
+        print("\t1) Home")
+        print("\t2) Building")
+        print("\t3) Gardening")
+        productType = input("Type number: ")
+        if productType == "1":
+            return createHomeProduct()
+        elif productType == "2":
+            return createBuildingProduct()
+        elif productType == "3":
+            return createGardeningProduct()
+
+
+def createHomeProduct():
+    descriptionInput = input("Product decription: ")
+    priceInput = getPriceInput()
+    product = Home(descriptionInput, priceInput) 
+    return product
+
+
+def createBuildingProduct():
+    descriptionInput = input("Product decription: ")
+    priceInput = getPriceInput()
+    product = Building(descriptionInput, priceInput) 
+    return product
+
+
+def createGardeningProduct():
+    descriptionInput = input("Product decription: ")
+    priceInput = getPriceInput()
+    product = Gardening(descriptionInput, priceInput) 
+    return product
+
+
+def getPriceInput():
+    while True:
+        priceInput = input("Product price:")
+        try:
+            price = float(priceInput)
+        except ValueError:
+            print("A money value is required.. .")
+        if isinstance(priceInput, float):
+            break
+    return price
+
+
+def getProductQty():
+    while True:
+        qtyInput = input("Product quantity: ")
+        try:
+            qty = int(qtyInput)
+        except ValueError:
+            print("An integer value is required.. .")
+        if isinstance(qty, int):
+            break
+    return qty
 
 
 def main():
-
-    product = Home("Taps", 12.99)
-    quantity = 3
-    outputProductPaymentDue(product, quantity)
-
-    product = Building("Bricks", 1.89)
-    quantity = 300
-    outputProductPaymentDue(product, quantity)
-
-    product = Gardening("Shovel", 11.20)
-    quantity = 2
-    outputProductPaymentDue(product, quantity)
-
-    product = Home("Bath tubs", 120)
-    quantity = 2
-    outputProductPaymentDue(product, quantity)
+    # Test data:
+    #
+    # product = Home("taps", 12.99)
+    # qty = 3
+    #
+    # product = Building("bricks", 1.89)
+    # qty = 300
+    #
+    # product = Gardening("shovel", 11.20)
+    # qty = 2
+    #
+    # product = Home("bathtub", 120)
+    # qty = 2
+    while True:
+        product = getProductFromTypeSelection()
+        qty = getProductQty()
+        outputProductPaymentDue(product, qty)
+        repeatInput = input("Repeat? (y/n): ")
+        if repeatInput != "y":
+            break
 
 
 if __name__ == "__main__":
-
     main()
