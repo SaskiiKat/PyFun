@@ -104,7 +104,7 @@ def getPriceInput():
             price = float(priceInput)
         except ValueError:
             print("A money value is required.. .")
-        if isinstance(priceInput, float):
+        if isinstance(price, float):
             break
     return price
 
